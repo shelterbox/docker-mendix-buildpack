@@ -12,6 +12,9 @@ LABEL maintainer="digitalecosystems@mendix.com"
 # Build-time variables
 ARG BUILD_PATH=project
 ARG DD_API_KEY
+# CF buildpack github organisation
+ARG ORG=mendix
+#ARG ORG=shelterbox
 # CF buildpack version
 ARG CF_BUILDPACK=master
 
@@ -25,7 +28,7 @@ ARG CF_BUILDPACK=master
 RUN mkdir -p /opt/mendix/buildpack /opt/mendix/build &&\
    useradd -r -g root -d /opt/mendix/build mendix &&\
    echo "CF Buildpack version ${CF_BUILDPACK}" &&\
-   wget -qO- https://github.com/mendix/cf-mendix-buildpack/archive/${CF_BUILDPACK}.tar.gz | tar xvz -C /opt/mendix/buildpack --strip-components 1 &&\
+   wget -qO- https://github.com/${ORG}/cf-mendix-buildpack/archive/${CF_BUILDPACK}.tar.gz | tar xvz -C /opt/mendix/buildpack --strip-components 1 &&\
    chown -R mendix:root /opt/mendix &&\
    chmod -R g+rwX /opt/mendix &&\
    chmod g+w /etc/passwd
