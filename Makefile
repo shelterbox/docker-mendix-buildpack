@@ -47,4 +47,5 @@ test-container:
 	tests/test-generic.sh tests/docker-compose-azuresql.yml
 
 run-container:
-	docker-compose -f tests/docker-compose-mysql.yml up
+	docker-compose -f tests/docker-compose-postgres.yml up
+
