@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#Usage: ./build-image imagename
+
+if [[ -n "${1}" ]]; then 
+    appname="${1}"
+    apprev=$(svn info --show-item revision ./build)
+    docker build \
+        --build-arg BUILD_PATH=build \
+        --build-arg ROOTFS_IMAGE=shelterbox/rootfs:bionic \
+        --build-arg ORG=shelterbox \
+        --build-arg CF_BUILDPACK=master \
+        --tag shelterbox/${appname}:${apprev} .
+    echo "shelterbox/${appname}:${apprev}"
+else 
+    echo "Error: no image name was specified." >&2
+    echo "  Usage: ./build-image {imagename}" >&2
+fi
+

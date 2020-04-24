@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Usage: ./svn-checkout {appid} [{branch}]
+
+if [[ -n "${1}" ]]; then 
+    if [[ $1 =~ [0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12} ]]; then 
+        appid="${1}"
+
+        if [[ -n "${2}" ]]; then 
+            branch="branches/${2}"
+            echo "Getting source from specified branch: $branch..." 
+        else
+            branch="trunk"
+            echo "No branch specified. Getting source from trunk..." 
+        fi
+
+        if [[ -d build ]]; then rm -rf build; fi 
+        if [[ -d downloads ]]; then rm -rf downloads; fi 
+        mkdir -p build 
+        svn checkout https://teamserver.sprintr.com/$appid/$branch ./build/ 
+    else
+        echo "Error: Specified appid was not valid." 
+    fi
+else 
+    echo "Error: No appid was specified." 
+    echo "  Usage: ./svn-checkout {appid} [{branch}]"
+fi
